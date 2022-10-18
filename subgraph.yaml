@@ -1,0 +1,29 @@
+specVersion: 0.0.4
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: CollateralLever
+    network: goerli
+    source:
+      address: "0xf8dDa8376819d2a15bd7A9D772965e411e29A982"
+      abi: CollateralLever
+      # startBlock: 7785893
+      startBlock: 7789281
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        # - ClosePositionSucc
+        # - OpenPositionSucc
+        - ActivePosition        
+      abis:
+        - name: CollateralLever
+          file: ./abis/CollateralLever.json
+      eventHandlers:
+        - event: ClosePositionSucc(address,uint256)
+          handler: handleClosePositionSucc
+        - event: OpenPositionSucc(address,(address,address,address,uint256,uint256,uint256,bool,uint256))
+          handler: handleOpenPositionSucc        
+      file: ./src/collateral-lever.ts
